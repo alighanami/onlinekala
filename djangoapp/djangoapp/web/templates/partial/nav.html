@@ -1,0 +1,115 @@
+{% load static %}
+
+<nav class="navbar navbar-expand-lg bg-body-tertiary shadow-sm py-2">
+    <div class="container-fluid">
+        <!-- لوگو -->
+        <a class="navbar-brand" href="/">
+            <img src="{% static 'images/320.png' %}" width="55" alt="Online KALA">
+        </a>
+
+        <!-- منوی موبایل -->
+        <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarSupportedContent"
+                aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+            <span class="navbar-toggler-icon"></span>
+        </button>
+
+        <div class="collapse navbar-collapse justify-content-between" id="navbarSupportedContent" dir="rtl">
+
+            <!-- 🟦 منو‌های راست‌چین کنار لوگو -->
+            <ul class="navbar-nav mb-2 mb-lg-0 d-flex flex-row align-items-center" style="margin-right: 1rem;">
+                {% for nav in navigations %}
+                <li class="nav-item mx-2">
+                    <a class="nav-link fw-semibold" href="{{ nav.link }}">{{ nav.title }}</a>
+                </li>
+                {% endfor %}
+            </ul>
+
+            <!-- 🟩 فرم جستجو + آیکون‌ها (درست شده با LTR) -->
+            <div class="d-flex align-items-center nav-icons flex-row" dir="ltr">
+
+                <!-- فرم جستجو -->
+                <form action="/search/" method="get" class="d-flex align-items-center me-3" role="search">
+                    <input class="form-control me-2" type="search" name="q"
+                           placeholder="جستجو محصولات" aria-label="Search" required/>
+                    <button class="btn btn-outline-primary" type="submit">جستجو</button>
+                </form>
+
+                <!-- آیکون سبد خرید -->
+                <a href="/basket/" class="button" title="سبد خرید">
+                    <svg xmlns="http://www.w3.org/2000/svg" fill="none" stroke="currentColor" stroke-width="2"
+                         viewBox="0 0 24 24">
+                        <path d="M6 6h15l-1.5 9h-12z"/>
+                        <circle cx="9" cy="20" r="1"/>
+                        <circle cx="18" cy="20" r="1"/>
+                    </svg>
+                </a>
+
+                <!-- آیکون ورود / ادمین -->
+                <a href="/admin/" class="button ms-2" title="ورود / ثبت‌نام">
+                    <svg xmlns="http://www.w3.org/2000/svg" fill="none" stroke="currentColor" stroke-width="2"
+                         viewBox="0 0 24 24">
+                        <circle cx="12" cy="8" r="4"/>
+                        <path d="M6 20c0-3.314 2.686-6 6-6s6 2.686 6 6"/>
+                    </svg>
+                </a>
+            </div>
+        </div>
+    </div><!-- آیتم‌های ناوبری -->
+</nav>
+
+{% if messages %}
+<div class="container">
+    <div class="text-center p-3">
+        {% for msg in messages %}
+        <div class="alert {% if msg.tags %}alert-{{ msg.tags }}{% endif %} alert-dismissible fade show" role="alert">
+            {{ msg }}
+            <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+        </div>
+        {% endfor %}
+    </div>
+</div>
+{% endif %}
+
+<!-- 🎨 استایل ظریف و تمیز آیکون‌ها -->
+<style>
+    .nav-icons .button {
+      background: transparent !important;
+      border: none !important;
+      padding: 0 6px;
+      margin: 0 3px;
+      display: inline-flex;
+      align-items: center;
+      transition: transform 0.2s ease, opacity 0.2s ease;
+      opacity: 0.8;
+      cursor: pointer;
+    }
+
+    /* آیکون SVG رنگ آبی برند */
+    .nav-icons .button svg {
+      width: 23px;
+      height: 23px;
+      color: #0d6efd !important;  /* آبی برند */
+      transition: all 0.25s ease;
+    }
+
+    /* افکت hover برای حرفه‌ای‌تر شدن */
+    .nav-icons .button:hover {
+      transform: translateY(-2px);
+      opacity: 1;
+    }
+
+    .nav-icons .button:hover svg {
+      color: #004a99 !important; /* آبی تیره‌تر موقع هاور */
+    }
+
+    /* حالت موبایل */
+    @media (max-width: 768px) {
+      .nav-icons {
+        margin-top: 0.5rem;
+      }
+
+      .nav-icons .button {
+        padding: 0 10px;
+      }
+    }
+</style>

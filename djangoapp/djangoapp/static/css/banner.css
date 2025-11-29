@@ -1,0 +1,35 @@
+body {
+      margin: 10;
+      font-family: 'Tahoma', 'Vazir', sans-serif; /* فونت خوانا */
+}
+
+.top-banner {
+      background-color: #007BFF; /* آبی زیبا */
+      color: white;
+      text-align: center;
+      padding: 15px;
+      font-size: 20px;
+      font-weight: bold;
+      letter-spacing: 1px;
+      box-shadow: 0 2px 5px rgba(0,0,0,0.2);
+}
+
+.flex-container {
+  display: flex;
+  justify-content: center; /* همه وسط‌چین */
+  gap: 60px; /* فاصله بین آیتم‌ها */
+  direction: rtl;
+}
+
+ .custom-banner {
+    width: 100%;              /* عرض کامل صفحه */
+    max-height: 420px;        /* ارتفاع محدود برای بنر افقی */
+    object-fit: cover;        /* برش نرم تصویر برای تناسب */
+    border-radius: 12px;      /* گوشه‌های گرد */
+    box-shadow: 0 8px 20px rgba(0, 0, 0, 0.2); /* سایه زیبا */
+    display: block;
+    margin: 0 auto;
+}
+
+
+

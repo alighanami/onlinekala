@@ -1,0 +1,29 @@
+/* استایل سفارشی برای منوهای کشویی */
+.custom-dropdown-menu {
+    display: none; /* پنهان کردن پیش‌فرض منو */
+    position: absolute !important;
+    background-color: #fff; /* پس زمینه سفید برای خوانایی */
+    border: 1px solid #ccc;
+    box-shadow: 0 0.5rem 1rem rgba(0, 0, 0, 0.15);
+}
+
+/* نمایش منو هنگام هاور روی دکمه والد (dropdown) */
+.dropdown:hover .custom-dropdown-menu {
+    display: block; /* نمایش منو */
+}
+
+/* برای اینکه دکمه‌ها کاملاً پرکننده عرض باشند */
+.d-grid {
+    display: grid;
+}
+
+/* استایل آیتم‌های داخل منو برای خوانایی فارسی */
+.dropdown-item {
+    text-align: right; /* تراز راست برای فارسی */
+}
+
+/* برای حذف خط جداکننده پیش‌فرض هاور در دکمه‌ها */
+.dropdown-toggle::after {
+    margin-right: 0.5rem;
+    margin-left: 0;
+}

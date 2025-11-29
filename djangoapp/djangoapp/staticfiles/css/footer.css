@@ -1,0 +1,46 @@
+/* استایل کلی فوتر */
+.custom-footer {
+    background-color: #1a1a1a;
+    color: #f8f9fa;
+}
+
+.footer-title {
+    color: #ffc107;
+}
+
+.footer-links a {
+    color: #adb5bd;
+    text-decoration: none;
+    transition: color 0.2s ease;
+}
+
+.footer-links a:hover {
+    color: #ffffff;
+}
+
+/* استایل آیکون‌های Font Awesome */
+.fa-icon {
+    color: #ffffff;
+    transition: color 0.3s ease, transform 0.3s ease;
+}
+
+.fa-icon:hover {
+    color: #ffc107; /* زرد شدن آیکون هنگام هاور */
+    transform: scale(1.1);
+}
+
+/* خط کپی‌رایت */
+.copyright-area {
+    border-top: 1px solid #333333;
+}
+
+.footer-text {
+    color: #adb5bd;
+}
+
+/* برای موبایل */
+@media (max-width: 768px) {
+    .custom-footer .col-md-12, .custom-footer .col-md-6 {
+        margin-bottom: 20px;
+    }
+}

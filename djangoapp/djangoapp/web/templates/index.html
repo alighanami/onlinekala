@@ -1,0 +1,249 @@
+<!DOCTYPE html>
+<html lang="fa" dir="rtl">
+{% load static %}
+{% load custom_filters %}
+<head>
+    {% include 'partial/header.html' %}
+</head>
+<body>
+
+<!-- کدهای بنر بالای نویگیشن -->
+<div class="top-banner">
+    <div class="flex-container">
+        <span>تسهیلات از سوی ما</span>
+        <span>و</span>
+        <span>خرید بی دغدغه از شما</span>
+    </div>
+</div>
+
+<!-- کد های مربوط به نویگیشن -->
+{% include 'partial/nav.html' %}
+<!-- کد های مربوط به دسته بندی -->
+<h1 class="text-center mb-1 display-5 border-bottom border-warning d-inline-block pb-0 mx-auto">
+    خرید بر اساس دسته‌بندی
+</h1>
+
+
+<div class="container-fluid py-5">
+    <div class="row text-center">
+
+        <!-- دسته‌بندی ۱: لوازم خانگی برقی -->
+        <div class="col-6 col-md-3 mb-3">
+            <div class="dropdown d-grid w-100">
+                <button class="btn btn-danger btn-lg py-3 dropdown-toggle"
+                        type="button"
+                        data-bs-toggle="dropdown"
+                        aria-expanded="false"
+                        id="dropdownElectric">
+                    لوازم خانگی برقی
+                </button>
+                <!-- منوی کشویی برای این دکمه -->
+                <ul class="dropdown-menu custom-dropdown-menu" aria-labelledby="dropdownElectric">
+                    <li><a class="dropdown-item" href="/electric/cooler/">کولر</a></li>
+                    <li><a class="dropdown-item" href="/electric/fridge/">یخچال و فریزر</a></li>
+                    <li><a class="dropdown-item" href="/electric/vacuum/">جاروبرقی</a></li>
+                </ul>
+            </div>
+        </div>
+
+        <!-- دسته‌بندی ۲: موبایل -->
+        <div class="col-6 col-md-3 mb-3">
+            <div class="dropdown d-grid w-100">
+                <button class="btn btn-primary btn-lg py-3 dropdown-toggle"
+                        type="button"
+                        data-bs-toggle="dropdown"
+                        aria-expanded="false"
+                        id="dropdownMobile">
+                    موبایل
+                </button>
+                <ul class="dropdown-menu custom-dropdown-menu" aria-labelledby="dropdownMobile">
+                    <li><a class="dropdown-item" href="/mobile/iphone/">آیفون</a></li>
+                    <li><a class="dropdown-item" href="/mobile/android/">اندروید</a></li>
+                    <li><a class="dropdown-item" href="/mobile/xiaomi/">شیاومی</a></li>
+                </ul>
+            </div>
+        </div>
+
+        <!-- دسته‌بندی ۳: لپ تاپ -->
+        <div class="col-6 col-md-3 mb-3">
+            <div class="dropdown d-grid w-100">
+                <button class="btn btn-success btn-lg py-3 dropdown-toggle"
+                        type="button"
+                        data-bs-toggle="dropdown"
+                        aria-expanded="false"
+                        id="dropdownLaptop">
+                    لپ تاپ
+                </button>
+                <ul class="dropdown-menu custom-dropdown-menu" aria-labelledby="dropdownLaptop">
+                    <li><a class="dropdown-item" href="/laptop/gaming/">گیمینگ</a></li>
+                    <li><a class="dropdown-item" href="/laptop/office/">اداری و دانشجویی</a></li>
+                </ul>
+            </div>
+        </div>
+
+        <!-- دسته‌بندی ۴: خانه و آشپزخانه -->
+        <div class="col-6 col-md-3 mb-3">
+            <div class="dropdown d-grid w-100">
+                <button class="btn btn-warning btn-lg py-3 dropdown-toggle"
+                        type="button"
+                        data-bs-toggle="dropdown"
+                        aria-expanded="false"
+                        id="dropdownKitchen">
+                    خانه و آشپزخانه
+                </button>
+                <ul class="dropdown-menu custom-dropdown-menu" aria-labelledby="dropdownKitchen">
+                    <li><a class="dropdown-item" href="/kitchen/gas/">اجاق گاز</a></li>
+                    <li><a class="dropdown-item" href="/kitchen/cookware/">ظروف چینی و سفالی</a></li>
+                    <li><a class="dropdown-item" href="/kitchen/decor/">لوازم دکوری</a></li>
+                </ul>
+            </div>
+        </div>
+
+    </div>
+</div>
+
+
+<!-- کد های مربوط به عکس زیر نوبار -->
+<div class="banner-wrapper text-center p-0 mb-0">
+    <img src="{% static 'images/Copilot_20251107_204752.png' %}" class="custom-banner" alt="Online Kala Banner">
+</div>
+
+<!-- کد های مربوط به اسلایدر -->
+<h2 class="text-center fw-bold mb-2" style="margin-top: 60px; font-size: 2rem;">
+  <span style="color: #dc3545; border-bottom: 3px dashed #dc3545; padding-bottom: 6px;">
+    <i class="bi bi-lightning-fill text-warning me-2"></i> پیشنهاد شگفت‌انگیز
+  </span>
+</h2>
+
+<div id="carouselExample" class="carousel slide" data-bs-ride="carousel">
+    <div class="carousel-inner">
+        <!-- اسلاید اول -->
+        <div class="carousel-item active" data-bs-interval="3000">
+            <div class="container p-0"> <!-- mt-5 حذف شد و p-0 برای حذف احتمالی padding پیش‌فرض کانتینر اعمال شد -->
+                <div class="row g-0"> <!-- g-0 برای حذف گاترها و فاصله بین ستون‌ها اضافه شد -->
+                    {% for product in products|slice:":3" %}
+                    <div class="col-4 p-2">
+                        <!-- p-2 برای ایجاد یک فاصله کوچک داخلی (Padding) بین کارت‌ها به جای حاشیه خارجی (Margin) -->
+                        <div class="card h-100 border-0"> <!-- m-2 حذف شد، border-0 برای ظاهر تمیزتر اضافه شد -->
+                            <img src="{{product.image.url}}" class="card-img-top">
+                            <div class="card-body mt-2">
+                                <h5 class="card-title mt-2">{{product.name}}</h5>
+                                <p class="card-text">{{product.description|safe}}</p>
+                            </div>
+                            <div class="card-footer d-flex justify-content-between">
+                                <span> <i
+                                        class="fa-solid fa-calendar-days"></i> {{product.updated_at|date:"Y-m-d"}} </span>
+                                <a href="/product/{{product.id}}/" class="btn btn-primary">اضافه به سبدخرید</a>
+                            </div>
+                        </div>
+                    </div>
+                    {% endfor %}
+                </div>
+            </div>
+        </div>
+        <!-- اسلاید دوم (همین تغییرات اعمال می‌شود) -->
+        <div class="carousel-item" data-bs-interval="3000">
+            <div class="container p-0"> <!-- mt-5 حذف شد -->
+                <div class="row g-0"> <!-- g-0 اضافه شد -->
+                    {% for product in products|slice:"3:6" %}
+                    <div class="col-4 p-2"> <!-- p-2 جایگزین m-2 شد -->
+                        <div class="card h-100 border-0"> <!-- m-2 حذف شد، border-0 اضافه شد -->
+                            <img src="{{product.image.url}}" class="card-img-top">
+                            <div class="card-body mt-2"><h5 class="card-title mt-2">{{product.name}}</h5>
+                                <p class="card-text">{{product.description|safe}}</p></div>
+                            <div class="card-footer d-flex justify-content-between"><span> <i
+                                    class="fa-solid fa-calendar-days"></i> {{product.updated_at|date:"Y-m-d"}} </span>
+                                <a href="/product/{{product.id}}/" class="btn btn-primary">اضافه به سبدخرید</a></div>
+                        </div>
+                    </div>
+                    {% endfor %}
+                </div>
+            </div>
+        </div>
+    </div>
+    <!-- دکمه‌های کنترل -->
+    <button class="carousel-control-prev" type="button" data-bs-target="#carouselExample" data-bs-slide="prev"><span
+            class="carousel-control-prev-icon">قبلی</span></button>
+    <button class="carousel-control-next" type="button" data-bs-target="#carouselExample" data-bs-slide="next"><span
+            class="carousel-control-next-icon">بعدی</span></button>
+</div>
+
+
+<!-- کد های مربوط به عکس زیر اسلایدر و محصولاتی که در پیشنهاد شگفت انگیز هستند -->
+<div class="promo-banner text-center my-4" style="overflow: hidden;">
+    <img src="{% static 'images/1053.jpg' %}"
+         style="height: 550px; width: 90%; object-fit: cover; border-radius: 12px;"
+         alt="خرید آنلاین با آرامش">
+</div>
+
+
+<!-- کد های مربوط به عکس زیر اسلایدر و محصولاتی که در جدیدترین هستند -->
+<h2 class="text-center fw-bold mb-5" style="margin-top: 60px; font-size: 2rem; position: relative;">
+    <span style="border-bottom: 3px solid #dc3545; padding-bottom: 8px;">
+    <i class="bi bi-star-fill text-warning me-2"></i> جدیدترین‌ها
+    </span>
+</h2>
+<div id="featuredCarousel" class="carousel slide" data-bs-ride="carousel">
+    <div class="carousel-inner">
+        <!-- اسلاید اول -->
+        <div class="carousel-item active py-4" data-bs-interval="3000">
+            <div class="container">
+                <div class="row justify-content-center align-items-stretch">
+                    {% for p in pru|slice:":3" %}
+                    <div class="col-md-4 mb-4">
+                        <div class="card h-100 shadow-sm" style="border-radius: 12px;">
+                            <img src="{{ p.image.url }}" class="card-img-top"
+                                 style="height: 180px; object-fit: cover; border-radius: 12px 12px 0 0;">
+                            <span class="position-absolute top-0 start-0 bg-danger text-white text-sm px-2 py-1 mt-2 ms-2 rounded-end">
+                                جدید
+                            </span>
+                            <div class="card-body text-center">
+                                <h5 class="card-title">{{ p.name }}</h5>
+                                <p class="text-danger fw-bold">{{ p.price|makemoney }} تومان</p>
+                            </div>
+                            <!-- دکمه‌ای که بعد از hover دیده می‌شود -->
+                            <div class="hover-buttons d-flex justify-content-center align-items-center flex-column">
+                                <a href="/product/{{ p.id }}/" class="btn btn-primary mb-2">مشاهده محصول</a>
+                                <a href="/product/{{ p.id }}/" class="btn btn-success">اضافه به سبد خرید</a>
+                            </div>
+                        </div>
+                    </div>
+                    {% endfor %}
+                </div>
+            </div>
+        </div>
+
+        <!-- اسلاید دوم -->
+        <div class="carousel-item py-4" data-bs-interval="3000">
+            <div class="container">
+                <div class="row justify-content-center align-items-stretch">
+                    {% for p in pru|slice:"3:6" %}
+                    <div class="col-md-4 mb-4">
+                        <div class="card h-100 shadow-sm" style="border-radius: 12px;">
+                            <img src="{{ p.image.url }}" class="card-img-top"
+                                 style="height: 180px; object-fit: cover; border-radius: 12px 12px 0 0;">
+                            <span class="position-absolute top-0 start-0 bg-danger text-white text-sm px-2 py-1 mt-2 ms-2 rounded-end">
+                                جدید
+                            </span>
+                            <div class="card-body text-center">
+                                <h5 class="card-title">{{ p.name }}</h5>
+                                <p class="text-danger fw-bold">{{ p.price|makemoney}} تومان</p>
+                            </div>
+                            <!-- دکمه‌ای که بعد از hover دیده می‌شود -->
+                            <div class="hover-buttons d-flex justify-content-center align-items-center flex-column">
+                                <a href="/product/{{ p.id }}/" class="btn btn-primary mb-2">مشاهده محصول</a>
+                                <a href="/product/{{ p.id }}/" class="btn btn-success">اضافه به سبد خرید</a>
+                            </div>
+                        </div>
+                    </div>
+                    {% endfor %}
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+{% include 'partial/footer.html' %}
+
+</body>
+</html>

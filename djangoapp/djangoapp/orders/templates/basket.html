@@ -1,0 +1,131 @@
+<!DOCTYPE html>
+<html lang="fa" dir="rtl">
+{% load static %}
+{% load custom_filters %}
+<head>
+    <title>Online Shop | سبد خرید</title>
+    {% include 'partial/header.html' %}
+</head>
+<body class="bg-light">
+
+{% include 'partial/nav.html' %}
+
+<div class="container mt-5 mb-5">
+
+    <h1 class="text-center mb-4 text-dark">سبد خرید</h1>
+
+
+    <!-- بخش آیتم‌های سبد خرید - استفاده از کارت‌ها -->
+    <div class="row g-3 mb-4">
+        {% if not basket_items %}
+        <div class="col-12">
+            <div class="alert alert-warning text-center p-5 shadow-lg rounded-3" role="alert">
+                <i class="fa-solid fa-cart-shopping fa-2x mb-3"></i>
+                <h4 class="mb-2">سبد خرید شما خالی است!</h4>
+                <p class="mb-4">محصولی برای نمایش وجود ندارد. لطفاً برای افزودن محصولات به سبد خرید، به فروشگاه
+                    برگردید.</p>
+                <a href="/" class="btn btn-warning btn-lg">
+                    <i class="fa-solid fa-arrow-left-long ms-2"></i>
+                    رفتن به اصلی و خرید بر اساس دسته بندی کالاها </a>
+            </div>
+        </div>
+        {% endif %}
+        {% for item in basket_items %}
+        <div class="col-12">
+            <div class="card shadow-lg border-0 rounded-3">
+                <div class="card-body p-3 p-md-4">
+                    <div class="row align-items-center">
+
+                        <!-- ستون تصویر محصول -->
+                        <div class="col-3 col-md-2 text-center">
+                            <img src="{{item.product.image.url}}"
+                                 class="img-fluid rounded"
+                                 alt="{{item.product.name}}"
+                                 style="max-height: 100px; width: 100%; object-fit: cover;">
+                        </div>
+
+                        <!-- ستون جزئیات محصول -->
+                        <div class="col-5 col-md-4">
+                            <h5 class="card-title mb-1">
+                                <a href="/product/{{item.product.id}}/"
+                                   class="text-decoration-none text-dark hover-opacity">{{item.product.name}}</a>
+                            </h5>
+                            <p class="text-muted small mb-0">قیمت واحد: <span
+                                    class="fw-bold">{{item.product.price|makemoney}}</span> تومان</p>
+                        </div>
+
+                        <!-- ستون کنترل‌های تعداد (افزایش/کاهش) -->
+                        <div class="col-2 col-md-2 text-center">
+                            <form action="{% url 'update_quantity_basket' item.id %}" method="POST">
+                                {% csrf_token %}
+                                <label class="form-label small d-block mb-1">تعداد:</label>
+                                <div class="input-group justify-content-center">
+                                    <!-- دکمه کاهش -->
+                                    <button class="btn btn-outline-secondary btn-sm py-0" type="submit" name="action" value="decrease"
+                                            {% if item.quantity <= 1 %}disabled{% endif %}>&minus;</button>
+
+                                    <!-- فیلد نمایش تعداد فعلی -->
+                                    <input type="text" class="form-control text-center border-0 py-0" name="quantity_display" value="{{ item.quantity }}" readonly style="max-width: 40px;">
+
+                                    <!-- دکمه افزایش -->
+                                    <button class="btn btn-outline-secondary btn-sm py-0" type="submit" name="action" value="increase">+</button>
+                                </div>
+                            </form>
+                        </div>
+
+                        <!-- ستون قیمت کل و دکمه حذف -->
+                        <div class="col-4 col-md-3 text-end">
+                            <p class="display-6 text-success mb-2">{{item.get_total_price|makemoney}} <small class="text-muted">تومان</small>
+                            </p>
+
+                            <!-- دکمه حذف -->
+                            <form action="{% url 'remove_from_basket' item.id %}" method="POST" class="d-inline">
+                                {% csrf_token %}
+                                <button type="submit" class="btn btn-outline-danger btn-sm" title="حذف کامل از سبد خرید">
+                                    <i class="fa-solid fa-trash-can"></i> حذف
+                                </button>
+                            </form>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        {% endfor %}
+    </div>
+
+    <!-- بخش خلاصه و دکمه‌ها - با طراحی مجزا (بدون تغییر) -->
+    <div class="row justify-content-end mt-5">
+
+        <!-- ناحیه مجموع -->
+        <div class="col-12 col-md-5 text-start">
+            <div class="bg-white p-4 rounded-3 shadow-sm border-start border-success border-5">
+                <h3 class="mb-0 d-flex justify-content-between align-items-center">
+                    <span>مجموع نهایی:</span>
+                    <span class="text-success fs-1">{{total_price|makemoney}}</span>
+                </h3>
+                <p class="text-muted me-2">تومان</p>
+            </div>
+        </div>
+
+        <!-- ناحیه دکمه‌ها -->
+        <div class="col-12 col-md-7 mt-3 mt-md-0 d-flex justify-content-start justify-content-md-end gap-3">
+
+            <!-- دکمه ادامه خرید -->
+            <a href="/" class="btn btn-outline-secondary btn-lg">
+                <i class="fa-solid fa-arrow-left-long ms-2"></i>
+                ادامه خرید از دسته بندی کالا
+            </a>
+
+            <!-- دکمه پرداخت نهایی (برجسته) -->
+            <a href="/register/" class="btn btn-primary btn-lg shadow-lg">
+                پرداخت نهایی
+                <i class="fa-solid fa-credit-card ms-2"></i>
+            </a>
+        </div>
+    </div>
+</div>
+
+{% include 'partial/footer.html' %}
+
+</body>
+</html>

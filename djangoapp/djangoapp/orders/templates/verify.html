@@ -1,0 +1,240 @@
+<!DOCTYPE html>
+<html lang="fa" dir="rtl">
+{% load static %}
+{% load custom_filters %}
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>نتیجه پرداخت | Online Shop</title>
+
+    {# فایل‌های استایل اصلی قالب #}
+    {% include 'partial/header.html' %}
+
+    <style>
+        :root {
+            --success-color: #4CAF50;
+            --error-color: #F44336;
+            --text-primary: #333;
+            --text-secondary: #666;
+            --bg-gradient: linear-gradient(135deg, #f5f7fa 0%, #c3cfe2 100%);
+        }
+
+        /* کانتینر اصلی وسط چین */
+        .verify-wrapper {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            min-height: 70vh; /* ارتفاع مناسب برای دیده شدن فوتر */
+            padding: 40px 15px;
+            background: #f9f9f9; /* رنگ پس‌زمینه ساده اگر گرادینت نخواستی */
+        }
+
+        /* کارت اصلی */
+        .result-card {
+            background: white;
+            border-radius: 20px;
+            box-shadow: 0 15px 40px rgba(0,0,0,0.08);
+            width: 100%;
+            max-width: 500px;
+            overflow: hidden;
+            text-align: center;
+            animation: slideUp 0.6s cubic-bezier(0.165, 0.84, 0.44, 1);
+            position: relative;
+        }
+
+        @keyframes slideUp {
+            from { transform: translateY(40px); opacity: 0; }
+            to { transform: translateY(0); opacity: 1; }
+        }
+
+        /* بخش هدر کارت (آیکون و عنوان) */
+        .card-status-header {
+            padding: 40px 30px 20px;
+            position: relative;
+        }
+        .card-status-header.success { background: linear-gradient(to bottom, #e8f5e9 0%, #ffffff 100%); }
+        .card-status-header.fail { background: linear-gradient(to bottom, #ffebee 0%, #ffffff 100%); }
+
+        /* دایره دور آیکون */
+        .icon-circle-bg {
+            width: 90px;
+            height: 90px;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            margin: 0 auto 20px;
+            box-shadow: 0 5px 15px rgba(0,0,0,0.05);
+        }
+        .success .icon-circle-bg { background: white; color: var(--success-color); }
+        .fail .icon-circle-bg { background: white; color: var(--error-color); }
+
+        /* انیمیشن تیک سبز */
+        .checkmark__circle {
+            stroke-dasharray: 166;
+            stroke-dashoffset: 166;
+            stroke-width: 2;
+            stroke-miterlimit: 10;
+            stroke: var(--success-color);
+            fill: none;
+            animation: stroke 0.6s cubic-bezier(0.65, 0, 0.45, 1) forwards;
+        }
+        .checkmark__check {
+            transform-origin: 50% 50%;
+            stroke-dasharray: 48;
+            stroke-dashoffset: 48;
+            stroke: var(--success-color);
+            stroke-width: 3;
+            fill: none;
+            animation: stroke 0.3s cubic-bezier(0.65, 0, 0.45, 1) 0.5s forwards;
+        }
+        @keyframes stroke { 100% { stroke-dashoffset: 0; } }
+
+        /* متون */
+        .status-title { font-size: 1.6rem; font-weight: 800; margin-bottom: 10px; color: var(--text-primary); }
+        .status-desc { color: var(--text-secondary); font-size: 0.95rem; margin-bottom: 20px; line-height: 1.6; }
+
+        /* بخش جزئیات شبیه رسید */
+        .receipt-box {
+            background: #fafafa;
+            margin: 0 30px 30px;
+            padding: 20px;
+            border-radius: 12px;
+            border: 1px dashed #d0d0d0;
+        }
+        .receipt-row {
+            display: flex;
+            justify-content: space-between;
+            margin-bottom: 12px;
+            font-size: 0.95rem;
+            color: #555;
+        }
+        .receipt-row strong { color: #000; font-weight: 700; }
+        .receipt-row:last-child { margin-bottom: 0; padding-top: 10px; border-top: 1px solid #eee; }
+
+        /* دکمه‌ها */
+        .btn-action {
+            display: inline-block;
+            width: 85%;
+            padding: 14px;
+            border-radius: 50px;
+            font-weight: 700;
+            text-decoration: none;
+            margin-bottom: 30px;
+            transition: all 0.3s ease;
+            border: none;
+            cursor: pointer;
+        }
+        .btn-success-glow {
+            background: var(--success-color);
+            color: white !important;
+            box-shadow: 0 4px 15px rgba(76, 175, 80, 0.4);
+        }
+        .btn-success-glow:hover { transform: translateY(-2px); box-shadow: 0 6px 20px rgba(76, 175, 80, 0.6); }
+
+        .btn-fail-glow {
+            background: var(--error-color);
+            color: white !important;
+            box-shadow: 0 4px 15px rgba(244, 67, 54, 0.4);
+        }
+        .btn-fail-glow:hover { transform: translateY(-2px); box-shadow: 0 6px 20px rgba(244, 67, 54, 0.6); }
+
+    </style>
+</head>
+<body>
+
+{% include 'partial/nav.html' %}
+
+<div class="verify-wrapper">
+
+
+    <!-- بررسی وضعیت پرداخت -->
+    <!-- فرض بر این است که ویو یا Status=PAID را می‌فرستد یا متغیر success=True -->
+    {% if order.status == 'PAID' or order.status == 'Paid' or success %}
+
+    <!-- ==================== کارت موفقیت ==================== -->
+    <div class="result-card success">
+        <div class="card-status-header success">
+            <div class="icon-circle-bg">
+                <!-- آیکون متحرک تیک -->
+                <svg class="checkmark" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 52 52" width="50" height="50">
+                    <circle class="checkmark__circle" cx="26" cy="26" r="25" fill="none"/>
+                    <path class="checkmark__check" fill="none" d="M14.1 27.2l7.1 7.2 16.7-16.8"/>
+                </svg>
+            </div>
+            <h2 class="status-title">پرداخت موفق!</h2>
+            <p class="status-desc">
+                سفارش شما با شماره <strong>{{ order.id }}</strong> ثبت شد.
+                <br>از خرید شما سپاسگزاریم.
+            </p>
+        </div>
+
+        <div class="receipt-box">
+            <div class="receipt-row">
+                <span>کد پیگیری تراکنش:</span>
+                {# استفاده از کد تراکنش، اگر نبود کد سفارش #}
+                <strong style="font-family: monospace; font-size: 1.1rem;">
+                    {{ transaction.ref_id|default:"-" }}
+                </strong>
+            </div>
+            <div class="receipt-row">
+                <span>مبلغ پرداخت شده:</span>
+                <strong>{{ order.amount|makemoney}} تومان</strong>
+            </div>
+            <div class="receipt-row">
+                <span>تاریخ:</span>
+                <strong>{{ order.created_at|date:"Y/m/d" }}</strong>
+            </div>
+        </div>
+
+        <a href="/" class="btn-action btn-success-glow">بازگشت به فروشگاه</a>
+    </div>
+
+    {% else %}
+
+    <!-- ==================== کارت ناموفق ==================== -->
+    <div class="result-card fail">
+        <div class="card-status-header fail">
+            <div class="icon-circle-bg">
+                <!-- آیکون ضربدر -->
+                <svg xmlns="http://www.w3.org/2000/svg" width="45" height="45" fill="currentColor" class="bi bi-x-lg"
+                     viewBox="0 0 16 16">
+                    <path d="M2.146 2.854a.5.5 0 1 1 .708-.708L8 7.293l5.146-5.147a.5.5 0 0 1 .708.708L8.707 8l5.147 5.146a.5.5 0 0 1-.708.708L8 8.707l-5.146 5.147a.5.5 0 0 1-.708-.708L7.293 8 2.146 2.854Z"/>
+                </svg>
+            </div>
+            <h2 class="status-title">پرداخت ناموفق</h2>
+            <p class="status-desc">
+                متاسفانه فرآیند پرداخت تکمیل نشد.
+                <br>
+                {% if error %}
+                <span class="text-danger small">{{ error }}</span>
+                {% else %}
+                ممکن است انصراف داده باشید یا موجودی کافی نباشد.
+                {% endif %}
+            </p>
+        </div>
+
+        <div class="receipt-box" style="background: #fff5f5; border-color: #ffcdd2;">
+            <div class="receipt-row">
+                <span>شماره سفارش:</span>
+                <strong>{{ order.id }}</strong>
+            </div>
+            <div class="receipt-row">
+                <span class="text-danger">وضعیت:</span>
+                <strong class="text-danger">لغو شده / خطا</strong>
+            </div>
+        </div>
+
+        <!-- لینک بازگشت: اگر ارور namespace داری، href="/basket/" بذار -->
+        <a href="/basket/" class="btn-action btn-fail-glow">بازگشت به سبد خرید</a>
+    </div>
+
+    {% endif %}
+
+</div>
+
+{% include 'partial/footer.html' %}
+
+</body>
+</html>

@@ -1,0 +1,22 @@
+.carousel-control-prev-icon,
+.carousel-control-next-icon {
+  background-image: none;   /* آیکون پیش‌فرض رو حذف می‌کنیم */
+  width: 20%;
+}
+
+.carousel-control-prev-icon::after {
+  content: '‹';             /* فلش قبلی */
+  font-size: 40px;
+  color: black;             /* رنگ مشکی */
+  left: -150px;
+}
+
+.carousel-control-next-icon::after {
+  content: '›';             /* فلش بعدی */
+  font-size: 40px;
+  color: black;             /* رنگ مشکی */
+  right: -150px;
+}
+
+
+

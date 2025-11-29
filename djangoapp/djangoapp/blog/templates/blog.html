@@ -1,0 +1,68 @@
+<html>
+{% load static %}
+
+<head>
+    <title>ONLINE KALA|درباره ما</title>
+
+    {% include 'partial/header.html' %}
+</head>
+<body>
+{% include 'partial/nav.html' %}
+
+{% load static %}
+<div class="container my-5">
+    <div class="row g-4">
+
+        <!-- ستون سمت چپ: تصویر محصول -->
+        <div class="col-lg-5">
+            <img src="{{blog.image.url}}" class="img-fluid rounded shadow-sm border p-1" alt="{{blog.title}}">
+        </div>
+
+        <!-- ستون سمت راست: اطلاعات اصلی و دکمه خرید -->
+        <div class="col-lg-6">
+            <div class="card border-0 shadow-lg">
+                <div class="card-body p-4">
+
+                    <!-- نام محصول -->
+                    <h1 class="fw-bold mb-3">{{blog.title}}</h1>
+
+                    <!-- توضیحات کوتاه (Description) -->
+                    <h4 class="text-muted fw-normal mb-4">{{blog.subtitle|safe|truncatechars:200}}</h4>
+
+
+                     <div class="d-flex align-items-center mb-4 border-bottom pb-3">
+                        <i class="fa-solid fa-eye text-primary me-2"></i>
+                        <span class="text-muted small me-3">بازدید:</span>
+                        <span class="fw-bold text-dark">{{ blog.visit_count }}</span>
+                    </div>
+
+
+                    <!-- اطلاعات به‌روزرسانی -->
+                    <p class="text-muted small border-top pt-3">
+                        تاریخ آخرین به‌روزرسانی: {{blog.updated_at|date:"Y-m-d H:i" }}
+                    </p>
+
+                    <!-- لینک برای رفتن به توضیحات کامل (Content) -->
+                    <a href="#product-details-content" class="text-decoration-none text-primary small mt-2 d-block">مشاهده کامل مقاله</a>
+
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- بخش محتوای کامل (Content) -->
+<div class="container mt-5">
+    <div class="card p-4 shadow-sm">
+        <h3 class="border-bottom pb-2 mb-3">مشاهده کامل مقاله</h3>
+        <!-- محتوای طولانی‌تر که در کد قبلی در تب بود -->
+        <div class="product-full-content">
+            <h3>{{blog.content|safe}}</h3>
+        </div>
+    </div>
+</div>
+
+{% include 'partial/footer.html' %}
+
+</body>
+</html>

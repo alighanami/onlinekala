@@ -1,0 +1,59 @@
+<!DOCTYPE html>
+<html lang="fa" dir="rtl">
+{% load static %}
+
+<head>
+    <!-- هدر سایت رو اینجا لود کن -->
+    {% include 'partial/header.html' %}
+    <title>نتایج جستجو</title>
+</head>
+<body>
+
+<!-- نوبار سایت -->
+{% include 'partial/nav.html' %}
+
+<div class="container py-5">
+    <h2 class="mb-4">
+        {% if query %}
+            نتایج جستجو برای: <span class="text-danger">"{{ query }}"</span>
+        {% else %}
+            جستجو
+        {% endif %}
+    </h2>
+
+    <div class="row">
+        {% if products %}
+            {% for product in products %}
+            <div class="col-md-4 col-lg-3 mb-4">
+                <div class="card h-100 shadow-sm">
+                    <!-- عکس محصول -->
+                    {% if product.image %}
+                    <img src="{{ product.image.url }}" class="card-img-top" style="height: 200px; object-fit: cover;" alt="{{ product.name }}">
+                    {% endif %}
+
+                    <div class="card-body text-center">
+                        <h5 class="card-title">{{ product.name }}</h5>
+                        <!-- قیمت (اگر فیلتر پول داری استفاده کن وگرنه همینجوری بذار) -->
+                        <p class="text-success fw-bold">{{ product.price }} تومان</p>
+                        <a href="/product/{{ product.id }}/" class="btn btn-primary w-100">مشاهده</a>
+                    </div>
+                </div>
+            </div>
+            {% endfor %}
+        {% else %}
+            <div class="col-12 text-center mt-5">
+                <div class="alert alert-warning">
+                    <h4>محصولی پیدا نشد! 😔</h4>
+                    <p>لطفاً املای کلمه را چک کنید یا کلمه دیگری را امتحان کنید.</p>
+                    <a href="/" class="btn btn-dark mt-2">بازگشت به خانه</a>
+                </div>
+            </div>
+        {% endif %}
+    </div>
+</div>
+
+<!-- فوتر سایت -->
+{% include 'partial/footer.html' %}
+
+</body>
+</html>

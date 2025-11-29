@@ -1,0 +1,71 @@
+<html>
+{% load static %}
+<head>
+  <title>ONLINE KALA | درباره ما</title>
+  {% include 'partial/header.html' %}
+  <style>
+    /* بنر: نصف ارتفاع صفحه (viewport) */
+    .about-banner {
+      height: 50vh;            /* نصف ارتفاع صفحه */
+      overflow: hidden;        /* جلوگیری از اسکرول داخلی */
+    }
+    .about-banner img {
+      width: 100%;
+      height: 100%;
+      object-fit: cover;       /* حفظ نسبت تصویر و پوشش کامل */
+      display: block;
+    }
+
+    /* محتوای اصلی: حداقل نصف صفحه، با فاصله مناسب */
+    .about-content {
+      min-height: 50vh;        /* حداقل نصف صفحه */
+      padding: 2rem 0;
+    }
+
+    /* حذف فاصله‌های اضافی بین بنر و محتوا */
+    .about-banner + .about-content {
+      margin-top: 0;
+    }
+
+    /* واکنش‌گرایی: روی موبایل کمی ارتفاع بنر را کم کنیم */
+    @media (max-width: 576px) {
+      .about-banner {
+        height: 40vh;
+      }
+    }
+  </style>
+</head>
+<body>
+  {% include 'partial/nav.html' %}
+
+  <!-- نیمه اول: تصویر -->
+  <div class="about-banner">
+    <img src="{% static 'images/000058.jpg' %}" alt="درباره ما - Online Kala">
+  </div>
+
+  <!-- نیمه دوم: محتوا -->
+  <div class="about-content">
+    <div class="container">
+      <div class="card shadow-sm p-4 border-0">
+        <h2 class="fw-bold text-danger mb-4">ما که هستیم؟</h2>
+        <p class="lead mb-3">
+          فروشگاه آنلاین کالا با هدف ایجاد تجربه‌ای امن، سریع و لذت‌بخش برای خرید آنلاین شکل گرفت.
+          ما تلاش می‌کنیم بهترین محصولات را با تضمین اصالت و پشتیبانی کامل در اختیار شما قرار دهیم.
+        </p>
+
+        <h3 class="mt-4">ارزش‌های ما</h3>
+        <ul class="list-unstyled">
+          <li><i class="bi bi-check-circle-fill text-success me-2"></i> تضمین اصالت کالا</li>
+          <li><i class="bi bi-truck text-primary me-2"></i> ارسال سریع به سراسر کشور</li>
+          <li><i class="bi bi-headset text-warning me-2"></i> پشتیبانی ۲۴ ساعته</li>
+        </ul>
+
+        <h3 class="mt-4">داستان ما</h3>
+        <p>از یک ایده ساده شروع کردیم: دسترسی آسان به محصولات باکیفیت برای همه...</p>
+      </div>
+    </div>
+  </div>
+
+  {% include 'partial/footer.html' %}
+</body>
+</html>

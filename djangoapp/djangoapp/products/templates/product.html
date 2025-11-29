@@ -1,0 +1,96 @@
+<html>
+{% load static %}
+{% load custom_filters %}
+
+
+<head>
+    <title>ONLINE KALA|{{product.name}}</title>
+
+    {% include 'partial/header.html' %}
+</head>
+<body>
+{% include 'partial/nav.html' %}
+
+{% load static %}
+<div class="container my-5">
+    <div class="row g-4">
+
+        <!-- ستون سمت چپ: تصویر محصول -->
+        <div class="col-lg-5">
+            <!-- فرض بر این است که product.image یک شیء است که .url دارد -->
+            <img src="{{product.image.url}}" class="img-fluid rounded shadow-sm border p-1" alt="{{product.name}}">
+        </div>
+
+        <!-- ستون سمت راست: اطلاعات اصلی و دکمه خرید -->
+        <div class="col-lg-6">
+            <div class="card border-0 shadow-lg">
+                <div class="card-body p-4">
+
+                    <!-- نام محصول -->
+                    <h1 class="fw-bold mb-3">{{product.name}}</h1>
+
+                    <!-- توضیحات کوتاه (Description) -->
+                    <h4 class="text-muted fw-normal mb-4">{{product.description|safe|truncatechars:200}}</h4>
+
+                    <div class="mb-4">
+                        <span class="text-danger fw-bold" style="font-size: 2.2rem;">
+                            {{ product.price|floatformat:0|makemoney }} تومان
+                        </span>
+                    </div>
+
+                    <div class="d-flex align-items-center mb-4 border-bottom pb-3">
+                        <i class="fa-solid fa-eye text-primary me-2"></i>
+                        <span class="text-muted small me-3">بازدید:</span>
+                        <span class="fw-bold text-dark">{{ product.visit_count }}</span>
+                    </div>
+
+                    <!-- دکمه خرید -->
+                    <div class="d-grid gap-3 mb-4">
+                        <input type="hidden" id="csrf_token" value="{{csrf_token}}" />
+                        <a href="#" class="btn btn-lg btn-primary fw-bold py-3" onclick="addToBasket()">
+                            <i class="fa-solid fa-basket-shopping fa-lg me-2"></i>
+                            اضافه به سبد خرید
+                        </a>
+                    </div>
+
+                    <!-- اطلاعات به‌روزرسانی -->
+                    <p class="text-muted small border-top pt-3">
+                        تاریخ آخرین به‌روزرسانی: {{product.updated_at|date:"Y-m-d"}}
+                    </p>
+
+                    <!-- لینک برای رفتن به توضیحات کامل (Content) -->
+                    <a href="#product-details-content" class="text-decoration-none text-primary small mt-2 d-block">مشاهده
+                        مشخصات فنی و محتوای کامل...</a>
+
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- بخش محتوای کامل (Content) -->
+<div class="container mt-5">
+    <div class="card p-4 shadow-sm" id="product-details-content">
+        <h3 class="border-bottom pb-2 mb-3">مشخصات کامل محصول</h3>
+        <!-- محتوای طولانی‌تر که در کد قبلی در تب بود -->
+        <div class="product-full-content">
+            <h3>{{product.content|safe}}</h3>
+        </div>
+    </div>
+</div>
+
+{% include 'partial/footer.html' %}
+
+<script>
+    function addToBasket(){
+        let csrf = document.getElementById("csrf_token").value;
+        fetch('/basket/{{product.id}}/add/', {
+            method: 'POST',
+            headers: {
+                'X-CSRFToken': csrf
+            }
+        }).then(res => location.href='/basket/');
+    }
+</script>
+</body>
+</html>

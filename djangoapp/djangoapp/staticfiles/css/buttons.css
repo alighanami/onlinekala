@@ -1,0 +1,43 @@
+/* موقعیت پایه کارت */
+.card.position-relative {
+    position: relative;
+    overflow: hidden;
+}
+
+/* لایه دکمه‌ها (ابتدا مخفی) */
+.hover-buttons {
+    position: absolute;
+    inset: 0; /* top, right, bottom, left صفر */
+    background: rgba(0, 0, 0, 0.55);
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    flex-direction: column;
+    opacity: 0;               /* نامرئی در شروع */
+    transition: opacity 0.3s ease; /* انیمیشن محوشدگی */
+}
+
+/* فقط وقتی موس روی کارت رفت فعال می‌شود */
+.card:hover .hover-buttons {
+    opacity: 1;
+}
+
+/* استایل دکمه‌ها */
+.hover-buttons a {
+    color: #fff;
+    width: 70%;
+    margin: 6px;
+    border-radius: 8px;
+    transition: background-color 0.2s ease;
+}
+
+/* افکت Hover روی خود دکمه‌ها */
+.hover-buttons a.btn-primary:hover {
+    background-color: #0d6efd;
+    color: #fff;
+}
+
+.hover-buttons a.btn-success:hover {
+    background-color: #198754;
+    color: #fff;
+}
